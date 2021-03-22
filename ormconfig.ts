@@ -1,5 +1,5 @@
 import { env } from "./src/utils/env-wrapper";
- 
+
 export default {
     type: "postgres",
     host: env.pg.host,
@@ -8,7 +8,9 @@ export default {
     password: env.pg.password,
     database: env.pg.database,
     synchronize: env.orm.synchronize,
-    logging: env.orm.logging,
+    // logging: env.orm.logging,
+    logging:false,
+    
     dropSchema: false,
     entities: [
         "src/entities/**/*.ts"

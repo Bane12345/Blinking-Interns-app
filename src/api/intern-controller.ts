@@ -75,4 +75,38 @@ export class InternController{
             sendResponse(response, 500, ErrorStatusCode.Failure, {message: error.message});
         }
     }
+
+    public static async deleteIntern(request: Request, response: Response): Promise<any>{
+        try{
+            let idString:string = request.params.id;
+            if(/^\d+$/.test(idString)){//check if id(which is currently string) is an integer
+                const id:number = parseInt(idString);
+                await InternRepository.deleteIntern(id);
+
+                sendResponse(response, 200, SuccessStatusCode.Success);
+            }else{
+                sendResponse(response,400, ErrorStatusCode.Failure, {message:"Intern ID must be a number"} )
+            }
+        }catch(error){
+            sendResponse(response, 500, ErrorStatusCode.Failure, {message: error.message})
+        }
+    }
+
+    public static async updateIntern(request:Request, response:Response){
+        try{
+            let idString:string = request.params.id;
+            if(/^\d+$/.test(idString)){//check if id(which is currently string) is an integer
+                const id:number = parseInt(idString);
+                const body: {intern: InternModel} = request.body;
+
+                await InternRepository.updateIntern(id, body.intern);
+
+                sendResponse(response, 200, SuccessStatusCode.Success);
+            }else{
+                sendResponse(response,400, ErrorStatusCode.Failure, {message:"Intern ID must be a number"} )
+            }
+        }catch(error){
+            sendResponse(response, 500, ErrorStatusCode.Failure, {message: error.message})
+        }
+    }
 }

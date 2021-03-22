@@ -3,15 +3,14 @@
 import { Intern } from "../entities/intern";
 import { getManager, FindManyOptions, EntityManager} from "typeorm";
 import { InternModel } from "../entities/models";
-import * as bcrypt from "bcrypt";
+import { getHashWithSalt } from '../utils/crypto'
 
 export class InternRepository {
 
     public static async insert(model: InternModel, entityManager?: EntityManager): Promise<void> {
         const manager = entityManager || getManager();
 
-        const salt = await bcrypt.genSalt();
-        model.password = await bcrypt.hash(model.password, salt);
+        model.password = await getHashWithSalt(model.password);
 
         await manager.save(Intern, { ...model });
     }
@@ -22,6 +21,17 @@ export class InternRepository {
 
     public static async find(options: FindManyOptions<Intern>): Promise<Intern[]> {
         return await getManager().find(Intern, options);
+    }
+
+    public static async deleteIntern(id:number): Promise<void>{
+        await getManager().delete(Intern, id);
+    }
+
+    public static async updateIntern(id:number, newInternData:InternModel){
+        if(newInternData.hasOwnProperty("password")){
+            newInternData.password = await getHashWithSalt(newInternData.password);
+        }
+        await getManager().update(Intern,id,newInternData)
     }
 
     // public static async update(criteria: any, partialEntity: QueryDeepPartialEntity<Action>): Promise<void> {

@@ -98,7 +98,7 @@ export class InternController{
             if(/^\d+$/.test(idString)){//check if id(which is currently string) is an integer
                 const id:number = parseInt(idString);
                 const body: {intern: InternModel} = request.body;
-
+                
                 await InternRepository.updateIntern(id, body.intern);
 
                 sendResponse(response, 200, SuccessStatusCode.Success);

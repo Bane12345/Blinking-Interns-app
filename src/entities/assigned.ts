@@ -7,25 +7,28 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 export class Assigned{
     
     @PrimaryColumn()
-    internId!:number;
+    internID!:number;
     
     @ManyToOne(() => Intern) 
-    @JoinColumn({ name: "internId" })
+    @JoinColumn({ name: "internID" })
     intern!: Intern;
 
     @PrimaryColumn()
-    taskId!:number;
+    taskID!:number;
 
     @ManyToOne(()=> Task)
-    @JoinColumn({name:"taskId"})
+    @JoinColumn({name:"taskID"})
     task!:Task;
 
     @Column({name:"task_status",nullable:false,type:"enum",enum:TaskStatus})
     status!:TaskStatus;
 
     @Column({nullable:false,type:"text"})
-    data!:string;
+    date!:string;
 
     @Column({nullable:false,type:"text"})
     deadline!:string;
+
+    @Column({nullable:true, type:'integer', default:0})
+    progress!:number;
 }

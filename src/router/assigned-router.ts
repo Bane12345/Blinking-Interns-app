@@ -1,8 +1,9 @@
 import { Router } from "express";
+import { AssignedController } from "../api/assigned-controller";
 
 const router = Router();
 
-router.get('/',)
+router.get('/:id',AssignedController.getAllAssignments)
 
 
 
